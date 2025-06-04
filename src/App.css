@@ -26,10 +26,9 @@ body {
   width: 100vw;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  padding-bottom: 3%;
+   padding-bottom: 3%;
   padding-top: 3%;
   background-color: #C2E6FF;
-  gap: 1rem;
 }
 
 h1 {
@@ -51,7 +50,7 @@ h1 {
 
   .grid-container {
     grid-template-columns: 1fr;
-    padding-bottom: 0;
+    padding-bottom: 1px;
     padding-top: 0;
     margin: 5px;
   }

@@ -31,7 +31,7 @@ h6{
 }
 
 .city-name {
-    font-size: 24px;
+    font-size: 30px;
     font-weight:700;
     color: #050505;
     margin: 0 0 4px 0;
@@ -46,7 +46,7 @@ h6{
 .weather-flex {
     display: flex;
     flex-direction:row-reverse;
-    justify-content: space-between;
+    justify-content: space-evenly;
  
     text-align: center;
 }
@@ -58,7 +58,7 @@ h6{
 
 .weather-label {
     color: #000000;
-    font-size: 14px;
+    font-size: 20px;
     margin: 0 0 8px 0;
 }
 
@@ -72,6 +72,7 @@ h6{
         width: 90vw;
         height: auto;
         padding: 16px;
+        margin-bottom: 5px;
     }
 
     .weather-header {
