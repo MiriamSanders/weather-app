@@ -34,7 +34,11 @@ body {
 
 h1 {
   color: #000;
-  align-self: center;
+  align-self: right;
+  font-weight: 400;
+  font-size: 32px;
+      align-self: end;
+      margin-right: 3%;
 }
 
 .container {

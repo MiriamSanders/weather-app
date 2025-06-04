@@ -37,7 +37,7 @@ const WeatherCard = ({ cityData }) => {
         fetchWeatherData();
     }, [cityData]);
     if (!weatherData) {
-        return <div className="weather-card">Loading...</div>;
+        return <div className="weather-card"><h6>Loading...</h6></div>;
     }
 
     const getWeatherIcon = (temp) => {
@@ -62,15 +62,15 @@ const WeatherCard = ({ cityData }) => {
             <div className="weather-flex">
                 <div className="weather-item">
                     <p className="weather-label">טמפ' נמדדת</p>
-                    <p className="weather-value">{weatherData.main.temp}°C</p>
+                    <p className="weather-value">{Math.round(weatherData.main.temp)}°C</p>
                 </div>
                 <div className="weather-item">
                     <p className="weather-label">טמפ' מורגשת</p>
-                    <p className="weather-value">{weatherData.main.feels_like}°C</p>
+                    <p className="weather-value">{Math.round(weatherData.main.feels_like)}°C</p>
                 </div>
                 <div className="weather-item">
                     <p className="weather-label">לחות</p>
-                    <p className="weather-value">{weatherData.main.humidity}%</p>
+                    <p className="weather-value">{Math.round(weatherData.main.humidity)}%</p>
                 </div>
             </div>
         </div>
