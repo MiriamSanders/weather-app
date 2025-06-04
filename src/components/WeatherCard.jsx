@@ -1,39 +1,39 @@
 import React, { useEffect } from "react";
 import { Sun, CloudHail, CloudSun } from "lucide-react"
-import "../styles/WeatherCard.css"; 
+import "../styles/WeatherCard.css";
 
 const WeatherCard = ({ cityData }) => {
     const [weatherData, setWeatherData] = React.useState(null);
 
     useEffect(() => {
-         const fetchWeatherData = async () => {
-    try {
-        const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
-        if (!apiKey) throw new Error("missing API key!");
+        const fetchWeatherData = async () => {
+            try {
+                const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
+                if (!apiKey) throw new Error("missing API key!");
 
-        let weatherResponse;
-        if (!cityData.lat || !cityData.lon) {
-            const cityResponse = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${cityData.name}&appid=${apiKey}`);
-            const cityDataResponse = await cityResponse.json();
-            if (!cityDataResponse[0]) throw new Error("invalid city name or no data found");
-            weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${cityDataResponse[0].lat}&lon=${cityDataResponse[0].lon}&appid=${apiKey}&units=metric&lang=he`);
-        } else {
-            weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${cityData.lat}&lon=${cityData.lon}&appid=${apiKey}&units=metric&lang=he`);
+                let weatherResponse;
+                if (!cityData.lat || !cityData.lon) {
+                    const cityResponse = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${cityData.name}&appid=${apiKey}`);
+                    const cityDataResponse = await cityResponse.json();
+                    if (!cityDataResponse[0]) throw new Error("invalid city name or no data found");
+                    weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${cityDataResponse[0].lat}&lon=${cityDataResponse[0].lon}&appid=${apiKey}&units=metric&lang=he`);
+                } else {
+                    weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${cityData.lat}&lon=${cityData.lon}&appid=${apiKey}&units=metric&lang=he`);
+                }
+
+                if (!weatherResponse.ok) {
+                    const errorData = await weatherResponse.json();
+                    throw new Error(errorData.message || "Failed to fetch weather data");
+                }
+
+                const data = await weatherResponse.json();
+                console.log("Weather data fetched successfully:", data);
+
+                setWeatherData(data);
+            } catch (error) {
+                console.error("Error fetching weather data:", error.message);
+            }
         }
-
-        if (!weatherResponse.ok) {
-            const errorData = await weatherResponse.json();
-            throw new Error(errorData.message || "Failed to fetch weather data");
-        }
-
-        const data = await weatherResponse.json();
-        console.log("Weather data fetched successfully:", data);
-        
-        setWeatherData(data);
-    } catch (error) {
-        console.error("Error fetching weather data:", error.message);
-    }
-}
         fetchWeatherData();
     }, [cityData]);
     if (!weatherData) {
@@ -60,11 +60,11 @@ const WeatherCard = ({ cityData }) => {
                 </div>
             </div>
             <div className="weather-flex">
-                 <div className="weather-item">
+                <div className="weather-item">
                     <p className="weather-label">טמפ' נמדדת</p>
                     <p className="weather-value">{weatherData.main.temp}°C</p>
                 </div>
-                  <div className="weather-item">
+                <div className="weather-item">
                     <p className="weather-label">טמפ' מורגשת</p>
                     <p className="weather-value">{weatherData.main.feels_like}°C</p>
                 </div>
