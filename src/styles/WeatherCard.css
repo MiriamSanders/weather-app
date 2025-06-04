@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo&display=swap');
 .weather-card {
     background-color: white;
     border-radius: 12px;
@@ -6,7 +7,7 @@
     width: 20vw;
     height: 25vh;
     margin: 0 auto;
-    font-family: Arial, sans-serif;
+    font-family:"Heebo", Arial, sans-serif;
 }
 
 .weather-header {
@@ -26,7 +27,8 @@
 
 .city-name {
     font-size: 24px;
-    font-weight: bold;
+    font-weight:700;
+    /* font-weight: bold; */
     color: #1f2937;
     margin: 0 0 4px 0;
 }
@@ -37,10 +39,11 @@
     margin: 0;
 }
 
-.weather-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+.weather-flex {
+    display: flex;
+    flex-direction:row-reverse;
+    justify-content: space-between;
+ 
     text-align: center;
 }
 

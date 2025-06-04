@@ -5,29 +5,32 @@ import "../styles/WeatherCard.css"; // Adjust the path as necessary
 const WeatherCard = ({ cityData }) => {
     const [weatherData, setWeatherData] = React.useState(null);
     const fetchWeatherData = async () => {
-        try {
-            // instead of using the city name, we can use the lat and lon props to fetch the weather data. (if we were to add an option of manually adding a city, we would need to use the city name to get the lat and lon)
-            let weatherResponse;
-            if (cityData.lat || !cityData.lon) {
-                const cityResponse = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityData.name}&appid=${import.meta.env.VITE_WEATHER_API_KEY}`);
-                const cityDataResponse = await cityResponse.json();
-                weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${cityDataResponse[0].lat}&lon=${cityDataResponse[0].lon}&appid=${import.meta.env.VITE_WEATHER_API_KEY}&units=metric&lang=he`);
-            }
-            else {
-                weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${cityData.lat}&lon=${cityData.lon}&appid=${import.meta.env.VITE_WEATHER_API_KEY}&units=metric&lang=he`);
-            }
-            const data = await weatherResponse.json();
-            console.log("Weather data:", data);
+    try {
+        const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
+        if (!apiKey) throw new Error("Missing API key!");
 
-            if (weatherResponse.status !== 200) {
-                throw new Error(data.message || "Failed to fetch weather data");
-            }
-            setWeatherData(data);
-        } catch (error) {
-            console.error("Error fetching weather data:", error);
-            return null;
+        let weatherResponse;
+        if (!cityData.lat || !cityData.lon) {
+            const cityResponse = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${cityData.name}&appid=${apiKey}`);
+            const cityDataResponse = await cityResponse.json();
+            if (!cityDataResponse[0]) throw new Error("Invalid city name or no data found");
+            weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${cityDataResponse[0].lat}&lon=${cityDataResponse[0].lon}&appid=${apiKey}&units=metric&lang=he`);
+        } else {
+            weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${cityData.lat}&lon=${cityData.lon}&appid=${apiKey}&units=metric&lang=he`);
         }
+
+        if (!weatherResponse.ok) {
+            const errorData = await weatherResponse.json();
+            throw new Error(errorData.message || "Failed to fetch weather data");
+        }
+
+        const data = await weatherResponse.json();
+        setWeatherData(data);
+    } catch (error) {
+        console.error("Error fetching weather data:", error.message);
     }
+}
+
     useEffect(() => {
         fetchWeatherData();
     }, [cityData]);
@@ -53,18 +56,18 @@ const WeatherCard = ({ cityData }) => {
                     <p className="weather-description">{weatherData.weather[0].description}</p>
                 </div>
             </div>
-            <div className="weather-grid">
-                <div className="weather-item">
-                    <p className="weather-label">לחות</p>
-                    <p className="weather-value">{weatherData.main.humidity}%</p>
-                </div>
-                <div className="weather-item">
+            <div className="weather-flex">
+                 <div className="weather-item">
                     <p className="weather-label">טמפ' נמדדת</p>
                     <p className="weather-value">{weatherData.main.temp}</p>
                 </div>
-                <div className="weather-item">
+                  <div className="weather-item">
                     <p className="weather-label">טמפ' מורגשת</p>
                     <p className="weather-value">{weatherData.main.feels_like}</p>
+                </div>
+                <div className="weather-item">
+                    <p className="weather-label">לחות</p>
+                    <p className="weather-value">{weatherData.main.humidity}%</p>
                 </div>
             </div>
         </div>
