@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import react from 'react'
 import WeatherCard from './components/WeatherCard'
 import './App.css'
 

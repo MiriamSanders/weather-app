@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect ,useState} from "react";
 import { Sun, CloudHail, CloudSun } from "lucide-react"
 import "../styles/WeatherCard.css";
 
 const WeatherCard = ({ cityData }) => {
-    const [weatherData, setWeatherData] = React.useState(null);
+    const [weatherData, setWeatherData] = useState(null);
 
     useEffect(() => {
         const fetchWeatherData = async () => {
